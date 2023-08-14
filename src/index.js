@@ -1,25 +1,33 @@
 console.log("test");
 
 const imageScroll = document.querySelector("#ramen-menu");
+const ramenDetail = document.querySelector("#ramen-detail");
 
-// ramen-menu div scroll images
+//console.log(ramenDetail); XXX
+
 // ramen-details div
 
-getRamenRecords();
+getInitialRamenRecords(); //VVV
 
-function getRamenRecords() {
-  fetch(`http://localhost:3000/ramens`)
+function getInitialRamenRecords() {
+  fetch(`http://localhost:3000/ramens/`) //VVV
     .then((r) => r.json())
-    //.then((ramenRecords) => console.log(ramenRecords))
-    .then((ramenRecords) => renderInitialRamenRecords(ramenRecords))
+    //.then((ramenRecords) => console.log(ramenRecords)) // XXX
+    .then((ramenRecords) => renderInitialRamenRecords(ramenRecords)) // VVV
     .catch((error) => console.log(error));
 }
 
 function renderInitialRamenRecords(ramenCollection) {
-  // Added if to remove problem object record on Met museum server side
+  console.log(ramenCollection);
   ramenCollection.forEach((ramenDish) => {
     const initialRamenDishImage = document.createElement("img");
     initialRamenDishImage.src = ramenDish.image;
+    initialRamenDishImage.id = ramenDish.id;
+
+    // console.log(initialRamenDishImage.src);
+    // console.log(initialRamenDishImage.id);
+
+    initialRamenDishImage.addEventListener("click", (e) => getImageDetails(e));
     imageScroll.append(initialRamenDishImage);
 
     // console.log(ramenDish.image);
@@ -28,54 +36,48 @@ function renderInitialRamenRecords(ramenCollection) {
     // console.log(ramenDish.rating);
     // console.log(ramenDish.comment);
     // const option = document.createElement("option");
-    // //Retrieve object related to art ID
-    // fetch(
-    //   `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artwork}`
-    // )
-    //   .then((r) => r.json())
-    //   .then((artObject) => {
-    //     //Add filter for no primary image here
-    //     if (artObject.primaryImage !== "") {
-    //       option.value = artObject.objectID;
-    //       option.textContent = artObject.title;
-    //       artItemFromList.append(option);
-    //     }
-    //   })
-    //   .catch((error) => alert(error));
+    // option.value = artObject.objectID;
+    // option.textContent = artObject.title;
+    // artItemFromList.append(option);
   });
 }
 
-// function getArtIds() {
-//   //API fetch of art id list for specific artist
-//   fetch(
-//     "https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=AugusteRenoir"
-//   )
-//     .then((r) => r.json())
-//     .then((artItems) => renderArtTitles(artItems.objectIDs))
-//     .catch((error) => alert(error));
-// }
+function getImageDetails(e) {
+  //clear container for the next selection
+  console.log(e);
+  //console.log(e.target.id);
+  ramenDetail.replaceChildren();
+  const ramenImg = document.createElement("img");
+  ramenImg.src = e.target.src;
+  ramenImg.id = e.target.id;
+  ramenImg.classList.add("detail-img");
+  ramenDetail.append(ramenImg);
+  //ramenIMG.src = ;
 
-//Receive art ID list and render as dropdown list item in the form of an art title
-// function renderArtTitles(artItems) {
-//   // Added if to remove problem object record on Met museum server side
-//   artItems.forEach((artwork) => {
-//     if (artwork !== 844492) {
-//       const option = document.createElement("option");
+  //   const title = document.createElement("h3");
+  //   title.textContent = famousArtwork.title;
 
-//       //Retrieve object related to art ID
-//       fetch(
-//         `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artwork}`
-//       )
-//         .then((r) => r.json())
-//         .then((artObject) => {
-//           //Add filter for no primary image here
-//           if (artObject.primaryImage !== "") {
-//             option.value = artObject.objectID;
-//             option.textContent = artObject.title;
-//             artItemFromList.append(option);
-//           }
-//         })
-//         .catch((error) => alert(error));
-//     }
-//   });
-// }
+  //   cardDiv.append(image, title);
+  //   artImageContainer.append(cardDiv);
+}
+
+function nnnnnnnnnnnn(famousArtwork) {
+  //clear container for the next selection
+  artImageContainer.replaceChildren();
+  const cardDiv = document.createElement("div");
+  cardDiv.classList.add("card");
+
+  // add event listener to card
+  cardDiv.addEventListener("click", (e) =>
+    getArtworkDetails(e, famousArtwork.medium, famousArtwork.objectDate)
+  );
+
+  const image = document.createElement("img");
+  image.src = famousArtwork.primaryImage;
+
+  const title = document.createElement("h3");
+  title.textContent = famousArtwork.title;
+
+  cardDiv.append(image, title);
+  artImageContainer.append(cardDiv);
+}
