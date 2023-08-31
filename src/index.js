@@ -7,7 +7,6 @@ const ramenForm = document.querySelector("#new-ramen");
 function getInitialRamenRecords() {
   fetch(`http://localhost:3000/ramens/`)
     .then((r) => r.json())
-
     .then((ramenRecords) => renderInitialRamenRecords(ramenRecords))
     .catch((error) => console.log(error));
 }
@@ -30,16 +29,13 @@ function renderInitialRamenRecords(ramenCollection) {
 
 function renderDetailedRamenImage(e) {
   // clear container for the next selection
-
   ramenDetail.replaceChildren();
 
   const detailedRamenImg = document.createElement("img");
 
   // render detailed image click
   detailedRamenImg.src = e.target.src;
-
   detailedRamenImg.id = e.target.id;
-
   detailedRamenImg.classList.add("detail-img");
   ramenDetail.append(detailedRamenImg);
 
@@ -51,7 +47,6 @@ function renderDetailedRamenImage(e) {
 function getDetailedRamenRecord(ramenRecordId) {
   fetch(`http://localhost:3000/ramens/${ramenRecordId}`)
     .then((r) => r.json())
-
     .then((ramenRecord) => {
       const detailedH2 = document.createElement("h2");
       const detailedH3 = document.createElement("h3");
@@ -60,16 +55,13 @@ function getDetailedRamenRecord(ramenRecordId) {
 
       detailedH2.classList.add("name");
       detailedH2.textContent = ramenRecord.name;
-
       ramenDetail.append(detailedH2);
 
       detailedH3.classList.add("restaurant");
       detailedH3.textContent = ramenRecord.restaurant;
-
       ramenDetail.append(detailedH3);
 
       ramenRating.textContent = ramenRecord.rating;
-
       ramenComment.textContent = ramenRecord.comment;
     })
     .catch((error) => console.log(error));
@@ -119,21 +111,17 @@ function renderAdditionalRamenDetail(
 
   // render detailed image click
   detailedRamenImg.src = ramenImg;
-
   detailedRamenImg.classList.add("detail-img");
   ramenDetail.append(detailedRamenImg);
 
   detailedH2.classList.add("name");
   detailedH2.textContent = ramenName;
-
   ramenDetail.append(detailedH2);
 
   detailedH3.classList.add("restaurant");
   detailedH3.textContent = restaurant;
-
   ramenDetail.append(detailedH3);
 
   ramenRating.textContent = rating;
-
   ramenComment.textContent = comment;
 }
